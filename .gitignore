@@ -1,0 +1,14 @@
+# Rust / Tauri
+/src-tauri/target/
+target/
+
+# Node / Vite
+node_modules/
+dist/
+
+# Local DB (cache, rebuildable)
+*.db
+*.db-*
+
+# OS
+.DS_Store
