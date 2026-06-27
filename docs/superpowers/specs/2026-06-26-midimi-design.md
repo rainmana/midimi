@@ -150,6 +150,17 @@ drift, and fade; glow rides `level`/`bands`). Future user plugins are JS modules
 folder exporting the same contract; **loading them is deferred** (no SDK, no sandbox in v1).
 WebGL/shader visuals are the documented upgrade path and the natural first *real* plugin.
 
+**Future visualization north-star (post-v1, recorded 2026-06-27 — not v1 scope):** the owner wants
+visuals that "show the relative change across a MIDI scale/melody in novel and unique ways," and
+to "get super creative." This pushes future visualizations beyond reactive ambience toward
+*structure-revealing* views — making the music's shape legible, not just pretty. Candidate
+directions to explore later: interval/contour ribbons (how far and which way each note leaps),
+pitch-class wheels / tonnetz lattices that light up the harmony being traversed, self-similarity
+or arc diagrams of repeated motifs, and scale-degree "gravity" fields showing tension/resolution
+relative to the inferred key. The Visualization contract already exposes the note timeline, so
+these are additive — new visualizations, not a re-architecture. Captured here so the creative
+direction survives into planning.
+
 ### 5.5 Theming
 Themes are sets of **CSS custom properties** (`--bg`, `--surface`, `--accent`, `--glow`, the
 aurora ramp, etc.). The visualization reads the same vars so the canvas matches the chrome.
