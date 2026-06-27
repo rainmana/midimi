@@ -1,10 +1,18 @@
 <script lang="ts">
   import * as ipc from '$lib/ipc';
   import VizCanvas from '$lib/VizCanvas.svelte';
-  import type { MidiData, Playhead } from '$lib/types';
+  import Transport from '$lib/Transport.svelte';
+  import TrackList from '$lib/TrackList.svelte';
+  import SoundfontPicker from '$lib/SoundfontPicker.svelte';
+  import ThemePicker from '$lib/ThemePicker.svelte';
+  import { applyTheme } from '$lib/theme';
+  import type { MidiData, Playhead, LibraryRow } from '$lib/types';
 
   let midi = $state<MidiData | null>(null);
   let head = $state<Playhead | null>(null);
+  let recent = $state<LibraryRow[]>([]);
+  let theme = $state('cosmic');
+  let panelsOpen = $state(true);
 
   $effect(() => {
     let un: (() => void) | undefined;
@@ -12,25 +20,53 @@
     return () => un?.();
   });
 
-  async function openFile() {
-    const path = await ipc.pickMidi();
-    if (!path) return;
-    midi = await ipc.openMidi(path);
-  }
+  // Startup: restore theme + recent list.
+  $effect(() => {
+    (async () => {
+      const settings = await ipc.getSettings();
+      theme = applyTheme(settings.find((s) => s.key === 'theme')?.value ?? 'cosmic');
+      recent = await ipc.listRecent();
+    })();
+  });
+
+  async function openPath(path: string) { midi = await ipc.openMidi(path); recent = await ipc.listRecent(); }
+  async function openFile() { const p = await ipc.pickMidi(); if (p) await openPath(p); }
 </script>
 
 <VizCanvas {midi} {head} />
-<div class="controls">
-  <button onclick={openFile}>Open MIDI</button>
-  <button onclick={() => ipc.play()}>Play</button>
-  <button onclick={() => ipc.pause()}>Pause</button>
-  {#if midi}<span>{midi.title ?? 'Untitled'} · {head ? head.time.toFixed(1) : '0.0'}s</span>{/if}
-</div>
+
+<header class="topbar">
+  <div class="brand"><span class="bdot"></span> midimi</div>
+  <div class="now">{midi?.title ?? (midi ? 'Untitled' : 'Open a MIDI to begin')}</div>
+  <button class="ghost" onclick={() => (panelsOpen = !panelsOpen)} title="Toggle panels">{panelsOpen ? '⟩' : '⟨'}</button>
+</header>
+
+{#if panelsOpen}
+<aside class="panels">
+  <button class="open" onclick={openFile}>＋ Open MIDI…</button>
+  <TrackList {midi} />
+  <SoundfontPicker />
+  <ThemePicker bind:current={theme} />
+  <div class="panel">
+    <h3>Recent</h3>
+    {#each recent as r}
+      <button class="recent" onclick={() => openPath(r.path)}>{r.title ?? r.path.split('/').pop()}</button>
+    {/each}
+    {#if recent.length === 0}<p class="muted">Nothing yet.</p>{/if}
+  </div>
+</aside>
+{/if}
+
+<Transport {midi} {head} />
 
 <style>
-  :global(body) { margin: 0; overflow: hidden; background: #05040c; color: #dfe4ff; font-family: ui-sans-serif, system-ui, sans-serif; }
-  .controls { position: fixed; left: 16px; bottom: 16px; display: flex; gap: 8px; align-items: center; z-index: 10; }
-  button { background: #15102e; color: #cdd6ff; border: 1px solid #3a2f66; border-radius: 10px; padding: 8px 14px; cursor: pointer; }
-  button:hover { background: #1e1640; }
-  span { opacity: 0.8; }
+  .topbar { position: fixed; top: 14px; left: 16px; right: 16px; z-index: 10; display: flex; align-items: center; gap: 14px; pointer-events: none; }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: 1px; font-size: 18px; }
+  .bdot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .now { flex: 1; color: var(--muted); font-size: 13px; }
+  .ghost { pointer-events: auto; background: transparent; border: none; color: var(--muted); }
+  .panels { position: fixed; top: 56px; right: 16px; bottom: 84px; width: 250px; z-index: 10;
+    display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+  .open { width: 100%; padding: 10px; font-weight: 600; }
+  .recent { width: 100%; text-align: left; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; }
 </style>
