@@ -14,6 +14,7 @@ pub struct AppState {
     pub current_sf: Mutex<Option<Arc<SoundFont>>>,
     pub current_midi: Mutex<Option<Arc<MidiFile>>>,
     pub builtin_sf_path: String,
+    pub demo_path: String,
 }
 
 fn now_unix() -> i64 {
@@ -93,3 +94,6 @@ pub async fn list_recent(state: State<'_, AppState>) -> Result<Vec<db::LibraryRo
 pub async fn get_settings(state: State<'_, AppState>) -> Result<Vec<db::Setting>, String> { db::list_settings(&state.db).await }
 #[tauri::command]
 pub async fn set_setting(state: State<'_, AppState>, key: String, value: String) -> Result<(), String> { db::set_setting(&state.db, &key, &value).await }
+
+#[tauri::command]
+pub fn demo_path(state: State<'_, AppState>) -> Result<String, String> { Ok(state.demo_path.clone()) }

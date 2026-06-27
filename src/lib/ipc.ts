@@ -15,6 +15,7 @@ export const listSoundfonts = () => invoke<SoundfontRow[]>('list_soundfonts');
 export const listRecent = () => invoke<LibraryRow[]>('list_recent');
 export const getSettings = () => invoke<Setting[]>('get_settings');
 export const setSetting = (key: string, value: string) => invoke('set_setting', { key, value });
+export const demoPath = () => invoke<string>('demo_path');
 
 export const listenPlayhead = (cb: (p: Playhead) => void): Promise<UnlistenFn> =>
   listen<Playhead>('playhead', (e) => cb(e.payload));

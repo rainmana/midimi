@@ -20,12 +20,15 @@
     return () => un?.();
   });
 
-  // Startup: restore theme + recent list.
+  // Startup: restore theme + recent list. Auto-open demo track on first run.
   $effect(() => {
     (async () => {
       const settings = await ipc.getSettings();
       theme = applyTheme(settings.find((s) => s.key === 'theme')?.value ?? 'cosmic');
       recent = await ipc.listRecent();
+      if (recent.length === 0) {
+        try { await openPath(await ipc.demoPath()); } catch {}
+      }
     })();
   });
 

@@ -23,6 +23,14 @@ pub fn run() {
                 .to_string_lossy()
                 .into_owned();
 
+            // Resolve the bundled demo MIDI (Tauri resource).
+            let demo_path = app
+                .path()
+                .resolve("demo/scale.mid", tauri::path::BaseDirectory::Resource)
+                .map_err(|e| e.to_string())?
+                .to_string_lossy()
+                .into_owned();
+
             // Open the local Turso cache in the app data dir (one-time blocking init).
             let data_dir = app.path().app_data_dir().map_err(|e| e.to_string())?;
             std::fs::create_dir_all(&data_dir).ok();
@@ -49,6 +57,7 @@ pub fn run() {
                 current_sf: Mutex::new(None),
                 current_midi: Mutex::new(None),
                 builtin_sf_path: sf_path,
+                demo_path,
             });
 
             // 60 Hz playhead emit loop.
@@ -85,6 +94,7 @@ pub fn run() {
             commands::list_recent,
             commands::get_settings,
             commands::set_setting,
+            commands::demo_path,
         ])
         .run(tauri::generate_context!())
         .expect("error while running midimi");
