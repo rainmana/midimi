@@ -52,7 +52,7 @@ The single, fully-polished path:
 2. It **plays** through the bundled General MIDI soundfont; the user can **swap** to any loaded `.sf2`.
 3. The **cosmic/aurora canvas** reacts in real time to the music.
 4. **Transport**: play / pause / seek / tempo (playback-rate) / master volume.
-5. **Track list**: per-track name, mute, solo.
+5. **Track list**: per-track name + color + note count. (Functional **mute/solo deferred to v1.1** — `rustysynth`'s `MidiFileSequencer` owns the synth immutably and plays all channels, so live per-track control needs a hand-written scheduler. Decided 2026-06-27.)
 6. **Soundfont picker** and **theme picker**.
 7. **Persistence**: recent files, registered soundfonts, and settings survive restarts.
 
@@ -233,7 +233,7 @@ midimi/
 ## 11. Roadmap (post-v1, indicative)
 
 1. **v1** — vertical slice (this spec).
-2. **v1.1** — WAV + MP3 export; a second built-in visualization (WebGL shader).
+2. **v1.1** — a hand-written note scheduler (`process_midi_message`) unlocking per-track **mute/solo** and precise seek; WAV + MP3 export; a second built-in visualization (WebGL shader).
 3. **v1.2** — plugin *loading* for visualizations; theme editor UI.
 4. **v2** — MIDI editing; MusicXML export; optional Turso cloud sync for the library.
 
