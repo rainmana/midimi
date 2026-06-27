@@ -5,6 +5,7 @@
   import TrackList from '$lib/TrackList.svelte';
   import SoundfontPicker from '$lib/SoundfontPicker.svelte';
   import ThemePicker from '$lib/ThemePicker.svelte';
+  import VizPicker from '$lib/VizPicker.svelte';
   import { applyTheme } from '$lib/theme';
   import type { MidiData, Playhead, LibraryRow } from '$lib/types';
 
@@ -12,6 +13,7 @@
   let head = $state<Playhead | null>(null);
   let recent = $state<LibraryRow[]>([]);
   let theme = $state('cosmic');
+  let vizId = $state('cosmic-aurora');
   let panelsOpen = $state(true);
 
   $effect(() => {
@@ -25,6 +27,7 @@
     (async () => {
       const settings = await ipc.getSettings();
       theme = applyTheme(settings.find((s) => s.key === 'theme')?.value ?? 'cosmic');
+      vizId = settings.find((s) => s.key === 'viz')?.value ?? 'cosmic-aurora';
       recent = await ipc.listRecent();
       if (recent.length === 0) {
         try { await openPath(await ipc.demoPath()); } catch {}
@@ -36,7 +39,7 @@
   async function openFile() { const p = await ipc.pickMidi(); if (p) await openPath(p); }
 </script>
 
-<VizCanvas {midi} {head} />
+<VizCanvas {midi} {head} {vizId} />
 
 <header class="topbar">
   <div class="brand"><span class="bdot"></span> midimi</div>
@@ -49,6 +52,7 @@
   <button class="open" onclick={openFile}>＋ Open MIDI…</button>
   <TrackList {midi} />
   <SoundfontPicker />
+  <VizPicker bind:current={vizId} />
   <ThemePicker bind:current={theme} />
   <div class="panel">
     <h3>Recent</h3>
