@@ -33,9 +33,10 @@ export function createCosmicAurora(): Visualization {
     onNoteOn(n: NoteEvent) {
       const hue = TRACK_HUES[n.track % TRACK_HUES.length];
       const vel = n.velocity / 127;
+      const f = Math.max(0, Math.min(1, (n.note - 21) / (108 - 21)));
       orbs.push({
         x: pitchToX(n.note),
-        y: h * (0.25 + 0.5 * (1 - n.note / 127)) + (Math.random() - 0.5) * 40,
+        y: h * (0.25 + 0.5 * (1 - f)) + (Math.random() - 0.5) * 40,
         vx: (Math.random() - 0.5) * 12,
         vy: -8 - vel * 22,
         r: 6 + vel * 26,

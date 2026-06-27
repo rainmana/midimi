@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createCosmicAurora } from './visualizations/cosmic-aurora';
   import type { MidiData, Playhead } from './types';
+  import type { NoteEvent } from './visualizations/types';
 
   let { midi, head }: { midi: MidiData | null; head: Playhead | null } = $props();
 
@@ -9,10 +10,10 @@
   const viz = createCosmicAurora();
   let raf = 0;
   let ptr = 0;
-  let active: { idx: number; end: number }[] = [];
+  let active: { ev: NoteEvent; end: number }[] = [];
   let lastTime = 0;
 
-  function resetSchedule() { ptr = 0; active = []; lastTime = 0; }
+  function resetSchedule() { for (const a of active) viz.onNoteOff(a.ev); ptr = 0; active = []; lastTime = 0; }
 
   // Reset the note scheduler whenever a new song loads.
   $effect(() => { midi; resetSchedule(); });
@@ -35,14 +36,14 @@
         const notes = m.notes;
         while (ptr < notes.length && notes[ptr].start_sec <= time) {
           const n = notes[ptr];
-          viz.onNoteOn({ track: n.track, channel: n.channel, note: n.note, velocity: n.velocity });
-          active.push({ idx: ptr, end: n.start_sec + n.dur_sec });
+          const ev: NoteEvent = { track: n.track, channel: n.channel, note: n.note, velocity: n.velocity };
+          viz.onNoteOn(ev);
+          active.push({ ev, end: n.start_sec + n.dur_sec });
           ptr++;
         }
         for (let i = active.length - 1; i >= 0; i--) {
           if (active[i].end <= time) {
-            const n = notes[active[i].idx];
-            viz.onNoteOff({ track: n.track, channel: n.channel, note: n.note, velocity: n.velocity });
+            viz.onNoteOff(active[i].ev);
             active.splice(i, 1);
           }
         }
