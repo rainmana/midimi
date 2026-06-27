@@ -1,0 +1,54 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="42%" cy="33%" r="82%">
+      <stop offset="0%" stop-color="#251b50"/>
+      <stop offset="48%" stop-color="#120d2e"/>
+      <stop offset="100%" stop-color="#05030d"/>
+    </radialGradient>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#19f0c8"/>
+      <stop offset="50%" stop-color="#7b6bff"/>
+      <stop offset="100%" stop-color="#ff6bd5"/>
+    </linearGradient>
+    <radialGradient id="head" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="28%" stop-color="#aefcff"/>
+      <stop offset="68%" stop-color="#19f0c8"/>
+      <stop offset="100%" stop-color="#19f0c8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="15"/></filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+
+  <!-- app tile -->
+  <rect x="0" y="0" width="512" height="512" rx="114" fill="url(#bg)"/>
+
+  <!-- aurora ribbon sweeping behind the note -->
+  <g opacity="0.6" filter="url(#soft)">
+    <path d="M44,338 C150,256 232,366 330,256 C392,188 462,250 500,212"
+      fill="none" stroke="url(#aurora)" stroke-width="48" stroke-linecap="round"/>
+  </g>
+
+  <!-- stars -->
+  <g fill="#ffffff">
+    <circle cx="118" cy="116" r="3" opacity="0.85"/>
+    <circle cx="402" cy="150" r="2.4" opacity="0.7"/>
+    <circle cx="372" cy="392" r="2.6" opacity="0.7"/>
+    <circle cx="150" cy="404" r="2" opacity="0.6"/>
+    <circle cx="430" cy="320" r="2.2" opacity="0.6"/>
+  </g>
+
+  <!-- eighth note rendered as light -->
+  <g>
+    <!-- stem -->
+    <path d="M300,156 L300,332" stroke="#aefcff" stroke-width="15" stroke-linecap="round" filter="url(#glow)"/>
+    <path d="M300,156 L300,332" stroke="#eafdff" stroke-width="7" stroke-linecap="round"/>
+    <!-- flag -->
+    <path d="M300,156 C352,170 376,210 354,256 C374,212 358,186 300,184 Z" fill="#9ffcff" filter="url(#glow)"/>
+    <path d="M300,156 C352,170 376,210 354,256 C374,212 358,186 300,184 Z" fill="#eafdff"/>
+    <!-- note head: glowing orb (the app's signature) -->
+    <circle cx="256" cy="332" r="86" fill="url(#head)"/>
+    <circle cx="256" cy="332" r="34" fill="#ffffff"/>
+    <circle cx="256" cy="332" r="34" fill="url(#head)" opacity="0.45"/>
+  </g>
+</svg>

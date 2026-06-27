@@ -1,4 +1,17 @@
-# midimi
+<p align="center">
+  <img src="assets/branding/midimi-icon.png" alt="midimi" width="168" height="168" />
+</p>
+
+<h1 align="center">midimi</h1>
+
+<p align="center"><em>A magical music box for MIDI — play, explore, and <strong>watch</strong> your music.</em></p>
+
+<p align="center">
+  <a href="https://github.com/rainmana/midimi/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/rainmana/midimi/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
+  <img alt="Platforms" src="https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20Windows-8a6bff">
+  <img alt="Built with" src="https://img.shields.io/badge/built%20with-Tauri%202%20%7C%20Svelte%205-19f0c8">
+</p>
 
 midimi is a native desktop MIDI player and visualizer built with Tauri v2 (Rust backend) and SvelteKit + Svelte 5 (frontend). Drop in a `.mid` file and watch it come alive: a full-screen "Cosmic Aurora" visualization reacts to every note in real time, while a bundled General MIDI soundfont renders the audio entirely in Rust — no browser audio engine, no drift. Transport controls let you play, pause, seek, adjust tempo and volume. Recent files and settings persist across launches. Licensed Apache-2.0.
 
