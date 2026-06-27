@@ -1,4 +1,5 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+mod analysis;
 mod midi;
 #[tauri::command]
 fn greet(name: &str) -> String {
