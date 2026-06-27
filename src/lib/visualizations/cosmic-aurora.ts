@@ -2,7 +2,7 @@ import type { Visualization, NoteEvent } from './types';
 
 interface Orb { x: number; y: number; vx: number; vy: number; r: number; life: number; maxLife: number; hue: number; }
 
-const TRACK_HUES = [190, 280, 320, 50, 150, 220, 0, 100];
+export const TRACK_HUES = [190, 280, 320, 50, 150, 220, 0, 100];
 
 export function createCosmicAurora(): Visualization {
   let canvas: HTMLCanvasElement;
