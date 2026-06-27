@@ -2,7 +2,7 @@
   import { THEMES, applyTheme } from './theme';
   import * as ipc from './ipc';
   let { current = $bindable('cosmic') }: { current?: string } = $props();
-  async function choose(id: string) { current = applyTheme(id); await ipc.setSetting('theme', id); }
+  async function choose(id: string) { current = applyTheme(id); await ipc.setSetting('theme', current); }
 </script>
 
 <div class="panel">

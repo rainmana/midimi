@@ -22,8 +22,8 @@
     oninput={(e) => { seeking = true; seekPos = +e.currentTarget.value; }}
     onchange={(e) => { ipc.seek(+e.currentTarget.value); seeking = false; }} />
   <span class="t">{fmt(dur)}</span>
-  <label>speed <input type="range" min="0.5" max="2" step="0.05" bind:value={tempo} onchange={() => ipc.setTempo(tempo)} /> {tempo.toFixed(2)}×</label>
-  <label>vol <input type="range" min="0" max="1.5" step="0.01" bind:value={volume} onchange={() => ipc.setVolume(volume)} /></label>
+  <label>speed <input type="range" min="0.5" max="2" step="0.05" bind:value={tempo} oninput={() => ipc.setTempo(tempo)} /> {tempo.toFixed(2)}×</label>
+  <label>vol <input type="range" min="0" max="1.5" step="0.01" bind:value={volume} oninput={() => ipc.setVolume(volume)} /></label>
 </div>
 
 <style>
