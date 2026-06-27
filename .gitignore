@@ -5,6 +5,14 @@ target/
 # Node / Vite
 node_modules/
 dist/
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # Local DB (cache, rebuildable)
 *.db
@@ -15,3 +23,6 @@ dist/
 
 # Subagent-driven-development scratch (briefs, review packages, ledger)
 .superpowers/
+
+# Bundled soundfont binary (fetched via scripts/fetch-soundfont.sh)
+assets/soundfonts/*.sf2
