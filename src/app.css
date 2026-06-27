@@ -1,0 +1,9 @@
+:root { --bg:#05040c; --surface:#0b0922cc; --border:#2a2350; --text:#dfe4ff; --muted:#8b86b8; --accent:#19f0c8; --accent2:#d36bff; }
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+.panel { background: var(--surface); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; }
+.panel h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+button { font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 7px 12px; cursor: pointer; transition: background .15s, border-color .15s; }
+button:hover { border-color: var(--accent); }
+.muted { color: var(--muted); font-size: 12px; }
+input[type=range] { accent-color: var(--accent); }
